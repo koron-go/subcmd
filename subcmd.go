@@ -56,7 +56,7 @@ func (c Command) Desc() string {
 	return c.desc
 }
 
-// Run executes sub-command, which 
+// Run executes sub-command. It will invoke CommandFunc which passed to DefineCommand.
 func (c Command) Run(ctx context.Context, args []string) error {
 	ctx = withName(ctx, c)
 	if c.runFn == nil {
