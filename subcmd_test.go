@@ -14,7 +14,7 @@ func TestCommand(t *testing.T) {
 		called = true
 		return nil
 	})
-	err := subcmd.Run(context.Background(), cmd)
+	err := subcmd.Run(cmd)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -25,7 +25,7 @@ func TestCommand(t *testing.T) {
 
 func TestCommandNil(t *testing.T) {
 	cmd := subcmd.DefineCommand("foo", t.Name(), nil)
-	err := subcmd.Run(context.Background(), cmd)
+	err := subcmd.Run(cmd)
 	if err == nil {
 		t.Fatal("unexpected succeed")
 	}
@@ -94,7 +94,7 @@ func TestSet(t *testing.T) {
 			[]string{"-id", "ABC"},
 		},
 	} {
-		err := subcmd.Run(context.Background(), set, c.args...)
+		err := subcmd.Run(set, c.args...)
 		if err != nil {
 			t.Fatalf("failed for case#%d (%+v): %s", i, c, err)
 			continue
@@ -136,7 +136,7 @@ Available sub-commands are:
 	delete      delete an entry
 	item        operate items`},
 	} {
-		err := subcmd.Run(context.Background(), rootSet, c.args...)
+		err := subcmd.Run(rootSet, c.args...)
 		if err == nil {
 			t.Fatalf("unexpected succeed at #%d %+v", i, c)
 		}
@@ -152,7 +152,7 @@ func TestAutoWidth(t *testing.T) {
 		subcmd.DefineCommand("verylongname", "long name command", nil),
 		subcmd.DefineCommand("short", "short name command", nil),
 	)
-	err := subcmd.Run(context.Background(), rootSet)
+	err := subcmd.Run(rootSet)
 	if err == nil {
 		t.Fatal("unexpected succeed")
 	}

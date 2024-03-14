@@ -145,8 +145,8 @@ func (s Set) Run(ctx context.Context, args []string) error {
 }
 
 // Run runs a Runner with ctx and args.
-func Run(ctx context.Context, r Runner, args ...string) error {
-	return r.Run(ctx, args)
+func Run(r Runner, args ...string) error {
+	return r.Run(context.Background(), args)
 }
 
 var keyNames = struct{}{}
