@@ -44,7 +44,7 @@ The basic usage consists of just 3 steps.
     var CommandSet = subcmd.DefineSet("item", List, Add)
     ```
 
-    Similarly, assume that multiple commands (List/Add/Delete) have been defined for user package.
+    Similarly, assume that multiple commands (List/Add/Delete) have been defined for `user` package.
 
     ```go
     package user
@@ -89,7 +89,7 @@ $ myprog item list
 $ myprog item add
 
 # List subcommands in "item" command set
-$ myprog item --list
+$ myprog item --help
 
 # Same about "user" command set.
 $ myprog user list
