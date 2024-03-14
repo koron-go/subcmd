@@ -41,7 +41,7 @@ The basic usage consists of just 3 steps.
     ```go
     package item
 
-    var CommandSet = subcmd.DefineSet("item", List, Add)
+    var CommandSet = subcmd.DefineSet("item", "operate items", List, Add)
     ```
 
     Similarly, assume that multiple commands (List/Add/Delete) have been defined for `user` package.
@@ -49,7 +49,7 @@ The basic usage consists of just 3 steps.
     ```go
     package user
 
-    var CommandSet = subcmd.DefineSet("user", List, Add, Delete)
+    var CommandSet = subcmd.DefineSet("user", "operate users", List, Add, Delete)
     ```
 
 3. Call function `subcmd.Run()` with the defined set from `main()`.
