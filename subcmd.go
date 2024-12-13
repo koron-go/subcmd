@@ -6,6 +6,7 @@ package subcmd
 import (
 	"bytes"
 	"context"
+	"flag"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -149,18 +150,18 @@ func Run(r Runner, args ...string) error {
 	return r.Run(context.Background(), args)
 }
 
-var keyNames = struct{}{}
+type keyNames struct{}
 
 // Names retrives names layer of current sub command.
 func Names(ctx context.Context) []string {
-	if names, ok := ctx.Value(keyNames).([]string); ok {
+	if names, ok := ctx.Value(keyNames{}).([]string); ok {
 		return names
 	}
 	return nil
 }
 
 func withName(ctx context.Context, r Runner) context.Context {
-	return context.WithValue(ctx, keyNames, append(Names(ctx), r.Name()))
+	return context.WithValue(ctx, keyNames{}, append(Names(ctx), r.Name()))
 }
 
 func stripExeExt(in string) string {
@@ -178,4 +179,9 @@ func rootName() string {
 		panic(fmt.Sprintf("failed to obtain executable name: %s", err))
 	}
 	return stripExeExt(exe)
+}
+
+func FlagSet(ctx context.Context) *flag.FlagSet {
+	name := strings.Join(Names(ctx), " ")
+	return flag.NewFlagSet(name, flag.ExitOnError)
 }
