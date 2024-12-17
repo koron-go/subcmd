@@ -174,3 +174,34 @@ func TestRootSet(t *testing.T) {
 		t.Errorf("unexpected name: -want +got\n%s", d)
 	}
 }
+
+func TestFlagSet(t *testing.T) {
+	t.Run("no name", func(t *testing.T) {
+		ctx := context.Background()
+		fs := subcmd.FlagSet(ctx)
+		got := fs.Name()
+		if got != "" {
+			t.Errorf("wrong name of FlagSet: got=%q", got)
+		}
+	})
+
+	t.Run("with names", func(t *testing.T) {
+		var gotName string
+		set := subcmd.DefineSet("first", "",
+			subcmd.DefineSet("second", "",
+				subcmd.DefineCommand("third", "", func(ctx context.Context, args []string) error {
+					fs := subcmd.FlagSet(ctx)
+					gotName = fs.Name()
+					return nil
+				}),
+			),
+		)
+		err := subcmd.Run(set, "second", "third")
+		if err != nil {
+			t.Fatalf("failed: %s", err)
+		}
+		if gotName != "first second third" {
+			t.Errorf("wrong name of FlagSet: got=%q", gotName)
+		}
+	})
+}

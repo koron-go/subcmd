@@ -181,6 +181,7 @@ func rootName() string {
 	return stripExeExt(exe)
 }
 
+// FlagSet creates a new flag.FlagSet with name of subcommand.
 func FlagSet(ctx context.Context) *flag.FlagSet {
 	name := strings.Join(Names(ctx), " ")
 	return flag.NewFlagSet(name, flag.ExitOnError)
